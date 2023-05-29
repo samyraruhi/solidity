@@ -15,7 +15,7 @@ contract HotelBooking {
     event BookingCreated(uint256 bookingId, address guest, uint256 roomId, uint256 checkInDate, uint256 checkOutDate);
 
     function bookRoom(uint256 roomId, uint256 checkInDate, uint256 checkOutDate) public {
-        require(checkInDate < checkOutDate, "Invalid check-in and check-out dates");
+        require(checkInDate < checkOutDate, "Invalid add items and check-out ");
         require(bookings[nextBookingId].guest == address(0), "Booking already exists for the given ID");
 
         Booking memory newBooking = Booking(msg.sender, roomId, checkInDate, checkOutDate);
