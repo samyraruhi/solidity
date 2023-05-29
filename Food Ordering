@@ -1,0 +1,35 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract FoodOrdering {
+    struct Ordering {
+        address customer;
+        uint256 foodId;
+        uint256 addToBasket;
+        uint256 checkOut;
+    }
+
+    mapping(uint256 => Ordering) public ordering;
+    uint256 public nextOrderingId;
+
+    event OrderingCreated(uint256 orderingId, address customer, uint256 foodId, uint256  addToBasket, uint256 checkOut);
+
+    function orderFood(uint256 foodId, uint256 addToBasket, uint256 checkOut) public {
+        require(addToBasket < checkOut, "Invalid check-in and check-out dates");
+        require(ordering[nextOrderingId].customer == address(0), "Ordering already exists for the given ID");
+
+       Ordering memory newOrdering = Ordering(msg.sender, foodId, addToBasket, checkOut);
+       ordering[nextOrderingId] = newOrdering;
+
+        emit OrderingCreated(nextOrderingId, msg.sender, foodId, addToBasket, checkOut);
+
+        nextOrderingId++;
+    }
+
+    function getOrdering(uint256 orderingId) public view returns (address customer, uint256 foodId, uint256 addToBasket, uint256 checkOut) {
+        require(orderingId < nextOrderingId, "Ordering does not exist for the given ID");
+
+       Ordering memory order = ordering[orderingId];
+        return (order.customer, order.foodId, order.addToBasket, order.checkOut);
+    }
+}
