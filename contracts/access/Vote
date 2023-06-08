@@ -11,7 +11,7 @@ contract Voting {
         string name;
         uint256 startTime;
         uint256 endTime;
-        mapping(address => bool) hasVoted;
+        mapping(address => bool) hasVoted;// keep track of whether an address has voted or not
         mapping(string => Contestant) contestants;
     }
 
@@ -32,15 +32,15 @@ contract Voting {
    function createVotingCampaign(string memory name, uint256 durationInSeconds) public onlyOwner {
     require(durationInSeconds > 0, "Duration must be greater than zero");
 
-    uint256 startTime = block.timestamp;
+    uint256 startTime = block.timestamp;////allows for time-based operations
     uint256 endTime = startTime + durationInSeconds;
 
-    VotingCampaign storage newCampaign = campaigns[campaignCount + 1];
+    VotingCampaign storage newCampaign = campaigns[campaignCount + 1];//array called campaigns
     newCampaign.name = name;
     newCampaign.startTime = startTime;
     newCampaign.endTime = endTime;
 
-    campaignCount++;
+    campaignCount++;//indicating that a new campaign has been added to the array.
 }
 
 
